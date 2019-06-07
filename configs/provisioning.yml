@@ -1,0 +1,21 @@
+---
+- hosts: all
+  tasks:
+    - name: 'Instala o PHP'
+      apt:
+        force_apt_get: yes
+        name: php
+        state: latest
+      become: yes
+    - name: 'Instala o apache2'
+      apt:
+        force_apt_get: yes
+        name: apache2
+        state: latest
+      become: yes
+    - name: 'Instala o modphp'
+      apt:
+        force_apt_get: yes
+        name: libapache2-mod-php
+        state: latest
+      become: yes

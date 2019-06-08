@@ -1,0 +1,37 @@
+---
+- name: 'Instala pacotes mysql!!!'
+  apt:
+    name: ['mysql-server', 'python-mysqldb', 'python-pymysql', 'python3-pymysql']
+    force_apt_get: yes
+    state: latest
+  become: yes
+
+- name: 'Cria DB do wordpress no mysql!!!'
+  mysql_db:
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+    name: "{{ wp_db_name }}"
+    login_user: root
+    state: present
+  become: yes
+
+- name: 'Cria usuario no mysql!!!'
+  mysql_user:
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+    login_user: root
+    name: "{{ wp_db_user }}"
+    password: "{{ wp_db_pass }}"
+    priv: "{{ wp_db_name }}.*:ALL"
+    state: present
+    host: '{{ item }}'
+  become: yes
+  with_items:
+    - '{{ wp_ip }}'
+
+- name: 'Configura mysql para acesso externo!!!'
+  copy:
+    src: 'files/mysqld.cnf'
+    dest: '/etc/mysql/mysql.conf.d/mysqld.cnf'
+    remote_src: no
+  become: yes
+  notify:
+    - restart mysql

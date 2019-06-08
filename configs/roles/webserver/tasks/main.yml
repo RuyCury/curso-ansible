@@ -1,0 +1,7 @@
+---
+- name: 'Instala pacotes wordpress!!!'
+  apt:
+    name: ['php', 'apache2', 'libapache2-mod-php', 'php-gd', 'php-ssh2', 'php-mysql']
+    force_apt_get: yes
+    state: latest
+  become: yes

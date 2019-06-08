@@ -1,3 +1,12 @@
+[mysql]
+192.168.50.103
+
+[mysql:vars]
+ansible_user=vagrant
+ansible_ssh_private_key_file=/home/vagrant/ansible_key
+ansible_python_interpreter=/usr/bin/python3
+ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+
 [wordpress]
 192.168.50.102
 
